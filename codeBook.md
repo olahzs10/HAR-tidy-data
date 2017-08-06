@@ -1,8 +1,6 @@
-## Reading and creating tidy datasets from 'Human Activity Recognition' data
+## Code book for the R script
 
-### Short notice on the data source
-
-Using the HAR data from UCI databases from http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones. We are going to use the following txt files to create our handy datasets:
+### Data source
 
 * 'activity_labels.txt' - contains the labels for the physical activities to be measured during the exercise.
 * 'features.txt' - contains a vector of the names of the different measurements (561 different features.)
@@ -13,18 +11,20 @@ Using the HAR data from UCI databases from http://archive.ics.uci.edu/ml/dataset
 * './train/X_train.txt' - feature values for the training data.
 * './train/subject_train.txt' - activity ids for the training data.
 
-### Reading data
+### Functions and transformations
+* 'load_data()' - special reading function doing the following steps:
+1) read ids from text data using 'scan()' function;
+2) read in data set for feature values, andtransform it into a matrix;
+3) putting ids and data matrix together into a data.frame.
 
-First, we create a function to read the text data described above. The function uses the attribute of "train/test" in order to determine the type of the dataset, reads the corresponding data with the 'scan()' function, and then creates a data frame from each part of the database.Second, we use the 'lapply()' function to read and store the data frames in a "large" list. Finally, we extract and merge the data frames into one data frame.
+* Using lapply() to read in different types of data (train/test).
+* Extract and merge data from the "large" list created in the previous step.
+* Calculating target measures with colMeans() and apply(...,sd).
+* Calculating target measures along each subject and activity id with ddply() from plyr package.
 
-### Calculating means and standard deviations
-
-We use 'colMeans()' and 'apply(...,sd)' functions in order to calculate the corresponding measures of each feature vector in the merged data frame.
-
-### Creating tidy data for the calculated measures
-
-We read in the feature label vector from 'features.txt', and then put the data together in data frame 'final_data'. This is a 561x3 dataset for the measures of each feature.
-
-### Creating tidy data for detailed measures along subject and activity ids
-
-In the last step, we create a similar table for means as in the previous step, except that we do that for each subject and each activity (i.e. for each subject-activity pairs). In order to do that, we use the 'ddply()' function from 'plyr' package, while we read into our database the labels for the activites from 'activity_labels.txt'.
+### Variables in the resulting data frame(s)
+1. 'subject_id' - factor variable for train and test subjects in the exercise (1-30).
+2. 'activity_id' - factor variables for physical activities ("WALKING", "WALKING_UPSTAIRS", "WALKING_DOWNSTAIRS", "SITTING", "STANDING", "LAYING");
+3. measurement - factor variable with 561 levels for the original features in the dataset
+4. mean - calculated mean on the given basis. 
+5. st_dev - calculated standard deviation on the given basis. 
