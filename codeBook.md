@@ -23,6 +23,9 @@
 * Calculating target measures along each subject and activity id with ddply() from plyr package.
 
 ### Variables in the resulting data frame(s)
+
+A) Data frame: 'final_data' -  contains the result from of the calculated means and standard deviations for the features.
+B) Data frame: 'df2' - contains the mean of all features along subjects and activities (i.e. for all subject-activity pairs).
 1. 'subject_id' - factor variable for train and test subjects in the exercise (1-30).
 2. 'activity_id' - factor variables for physical activities ("WALKING", "WALKING_UPSTAIRS", "WALKING_DOWNSTAIRS", "SITTING", "STANDING", "LAYING");
 3. measurement - factor variable with 561 levels for the original features in the dataset
